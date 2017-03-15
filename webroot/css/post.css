@@ -1,0 +1,17 @@
+#form_add {
+    width: 726px;
+    height: auto;
+    float: left;
+    position: relative;
+    z-index: 15;
+}
+.post form{
+    padding-top: 1rem;
+    margin-left: 1rem;
+}
+.post h1{
+    margin-left: 10rem;
+}
+#cmntfs{
+    margin: 0px;
+}

@@ -1,0 +1,33 @@
+.scroll-text {
+  height: 14.5em;
+  overflow: hidden;
+  display: inline-block;
+}
+.scroll-text ul {
+  overflow: hidden;
+  margin: 0;
+  list-style-type: none;
+}
+#demo4.scroll-img ul,
+ #demo5.scroll-img ul {
+   width: 1500px;
+ }
+.scroll-text ul li {
+  /*height: 1.5em;*/
+}
+.scroll-img {
+  border: 1px solid red;
+  width: 680px;
+  height: 142px;
+  overflow: hidden;
+  font-size: 0;
+}
+.scroll-img ul {
+  width: 700px;
+  height: 600px;
+  margin: 0;
+}
+.scroll-img ul li {
+  display: inline-block;
+  margin: 10px 0 10px 10px;
+}
