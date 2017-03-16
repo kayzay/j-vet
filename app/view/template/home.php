@@ -7,7 +7,8 @@
             <h1>Populars</h1>  <hr/>
             <div id="demo4" class="scroll-text">
                 <ul>
-                    <?php foreach ($popular as $post){ $post['data'] = explode('-', $post['data']); ?>
+                    <?php foreach ($popular as $post) { if($post['leanch'] == 0) { continue; }
+    $post['data'] = explode('-', $post['data']); ?>
                     <li>
                         <div class="post">
                             <dl class="date">
