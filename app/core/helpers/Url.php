@@ -34,7 +34,7 @@ class Url
 
     public static function redirect($link,  $status = 302)
     {
-        header('Location: ' . $link, true, $status);
+        header('Location: ' . $link, false, $status);
         exit();
     }
 }

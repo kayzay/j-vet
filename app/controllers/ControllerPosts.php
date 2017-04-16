@@ -38,7 +38,7 @@ class ControllerPosts extends Controller
 
     public function actionSavePost()
     {
-        $result = $this->validate(App::getRequest()->post);
+        $result = self::validate(App::getRequest()->post);
         if (is_bool($result) && $result) {
             $model_post = new ModelPost();
             if ($model_post->postSave(App::getRequest()->post)) {
@@ -72,7 +72,7 @@ class ControllerPosts extends Controller
         }
     }
 
-    private function validate($list)
+    private static function validate($list)
     {
         $reg = '/^[\w,\.\(\)\?\-\s]{2,}$/';
         if (isset($list['post_name']) && isset($list['author']) && (isset($list['article']) && !empty($list['article']))) {
