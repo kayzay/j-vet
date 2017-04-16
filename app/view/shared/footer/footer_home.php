@@ -3,7 +3,7 @@
     <div id="lcnt">
                 <div class="post-footer">
                     <h2>New post</h2>
-                    <form action="<?=$this->url[4]; ?>" method="post" id="cmntfrm">
+                    <form action="<?=Url::getLink(4); ?>" method="post" id="cmntfrm">
                         <div id="cmntfs">
                             <p><label>Post name <span>(required)</label></p>
                             <p><input type="text" name="post_name" size="22" tabindex="1" id="author" required pattern="^[A-Za-zА-Яа-я0-9,\.\(\)\?\-\s]{2,100}$"></p>
