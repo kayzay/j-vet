@@ -10,36 +10,71 @@ namespace Core;
 class Router
 {
     private $collection_action;
-    public $link;
+    private $link;
+    private $meta;
     public function startRouter($db, $config)
     {
-        $query = "SELECT rou.action_id, rou.alias, al_act.controller, al_act.action
+        $query = "SELECT 
+                      rou.action_id,
+                      rou.alias,
+                      rou.title,
+                      rou.keywords,
+                      rou.description,
+                      al_act.controller,
+                      al_act.action
                   FROM routers AS rou, alias_action AS al_act
                   WHERE rou.action_id = al_act.id";
         $result = $db->run($query)->fetchAll();  
         foreach ($result as $value) {
-            $this->link[$value['action_id']] = 'http://' . $config['domain_name'] . '/' . $value['alias'];
-            $this->collection_action[$value['alias']] = array('controller' => $value['controller'], 'action' => $value['action']);
+            $this->link[$value['action_id']] = 'http://' . $config['base']['domain_name'] . '/' . $value['alias'];
+            $this->collection_action[$value['alias']] = array(
+                                                                'controller' => $value['controller'], 
+                                                                'action' => $value['action']
+                                                               );
+            $this->meta[$value['action']] = array(
+                                                    'title' => $value['title'],
+                                                    'keywords' => $value['keywords'],
+                                                    'description' => $value['description']
+                                                   );
         }
+        $this->collection_action = !empty($config['ajax_url'])
+            ? array_merge($this->collection_action, $config['ajax_url'])
+            : $this->collection_action;
+
+        unset($db,$config);
     }
     
-    public static function handlerUrl($app)
+    public static function handlerUrl()
     {
         try {
-            $action = '';
+            $action = array();
             $patch = trim($_SERVER['REQUEST_URI'],'/');
             $parts = (empty($patch)) ? 'home' : explode('/', $patch);
             if (is_array($parts) && preg_match('/^[a-z-]{3,}$/', $parts[0])) {
-                $action = $parts[0];
+                $action['name'] = $parts[0];
                 unset($parts[0]);
-                $app->set('url_action_data', array_values($parts));
+                $action['url_action_data'] = array_values($parts);
+            } elseif (is_array($parts) && preg_match('/ajax/', $parts[1])) {
+                $action['name'] = $parts[0];
             } elseif (is_string($parts)) {
-                $action = $parts;
+                $action['name'] = $parts;
             }
+            unset($parts, $patch);
             return $action;
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
+    }
+    
+    public function getMetaData($name)
+    {
+        return isset($this->meta[$name])
+                ? $this->meta[$name]
+                : array(
+                'title' => '',
+                'keywords' => '',
+                'description' => ''
+            );
     }
 
     public function getAliasAction($alias)
@@ -50,4 +85,15 @@ class Router
              header('Location: ' . $this->link[1]);exit();
          }
     }
+    
+    public function getLink()
+    {
+        return $this->link;
+    }
+    
+    public function getMeta()
+    {
+        return $this->meta;
+    }
+        
 }

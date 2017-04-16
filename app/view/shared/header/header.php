@@ -2,7 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Paper Blog</title>
+    <title><?=MetaData::getTitle(); ?></title>
+    <meta name="keywords" content="<?=MetaData::getKeywords(); ?>"/>
+    <meta name="description" content="<?=MetaData::getDescription(); ?>"/>
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/png"/>
     <link href="/webroot/css/style.css?v=1.5" rel="stylesheet" type="text/css" />
     <link href="/webroot/css/demo.css?v=2.0" rel="stylesheet" type="text/css" />
     <link href="/webroot/css/post.css" rel="stylesheet" type="text/css" />
@@ -37,14 +40,14 @@
     <div id="hdr" class="pngf">
         <!-- Logo -->
         <div id="logo" class="pngf">
-            <a href="<?=$this->url[1]; ?>"></a>
+            <a href="<?=Url::getLink(1); ?>"></a>
         </div>
         <!-- Main Menu -->
         <div id="menu">
-            <a class="home pngf" href="<?=$this->url[1]; ?>">
+            <a class="home pngf" href="<?=Url::getLink(1); ?>">
                 <span class="atit">HOME</span>
             </a>
-            <a class="arch pngf" href="<?=$this->url[3]; ?>">
+            <a class="arch pngf" href="<?=Url::getLink(3); ?>">
                 <span class="atit">ARCHIVE</span>
             </a>
         </div>

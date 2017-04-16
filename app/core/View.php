@@ -12,11 +12,9 @@ namespace core;
 class View
 {
     private $patch;
-    private $url;
-    public function __construct($config_view_element, $link)
+    public function __construct()
     {
-        $this->patch = $config_view_element;
-        $this->url = $link;
+        $this->patch = Configuration::getConfig()['patch'];
     }
 
     public function generate($layout = 'default', $template, $data = null)
@@ -27,9 +25,7 @@ class View
                 extract($data);
                 unset($data);
             }
-
                require($file);
-
             } else {
                 trigger_error('Error: Could not load template ' . $file . '!');
                 exit();

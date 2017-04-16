@@ -3,9 +3,11 @@ namespace core;
 
 abstract class Controller {
 	protected $registry;
+	protected  static $view;
 
 	public function __construct($list = null) {
 		$this->registry = $list;
+		self::$view = new View();
 	}
 
 	public function __get($key) {

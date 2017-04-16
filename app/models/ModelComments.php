@@ -9,31 +9,42 @@
 namespace models;
 
 
-use core\lib\Sqlite;
+use core\App;
 
-class ModelComments extends Sqlite
+class ModelComments
 {
+    /**
+     * @param $list
+     * @return mixed
+     */
     public function commentSave($list)
     {
         $date = new \DateTime();
         $params = array_values($list);
         $params[] = $date->format('Y-F-d H-m-s');
         $query = "INSERT INTO comments (post_id, `from`, article, `data`) VALUES (?, ?, ?, ?)";
-        $result = $this->run($query, $params);
+        $result = App::getDB()->run($query, $params);
         return $result->rowCount();
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public function getComments($id)
     {
         $query = "SELECT * FROM comments WHERE post_id = :id";
-        $result = $this->run($query, array(':id' => $id));
+        $result = App::getDB()->run($query, array(':id' => $id));
         return $result->fetchAll();
     }
 
+    /**
+     * @return array
+     */
     public function getAllComments()
     {
         $query = "SELECT * FROM comments";
-        $result = $this->run($query);
+        $result = App::getDB()->run($query);
         return $result->fetchAll();
     }
 }

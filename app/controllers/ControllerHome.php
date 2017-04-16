@@ -18,8 +18,7 @@ class ControllerHome extends Controller
         $model = new ModelPost();
         $data['all_post'] = $model->getPostAll();
         $data['popular'] = $model->popular(5);
-
-        $this->registry['view']->generate('home', 'home', $data);
+        self::$view->generate('home', 'home', $data);
     }
     public function actionPage404()
     {

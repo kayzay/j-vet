@@ -3,11 +3,10 @@
     <!-- Left Column -->
     <div id="lcnt">
         <div class="post">
-
             <h1>Populars</h1>  <hr/>
             <div id="demo4" class="scroll-text">
                 <ul>
-                    <?php foreach ($popular as $post) { if($post['leanch'] == 0) { continue; }
+ <?php foreach ($popular as $post) { if($post['leanch'] == 0) { continue; }
     $post['data'] = explode('-', $post['data']); ?>
                     <li>
                         <div class="post">
@@ -23,19 +22,18 @@
                                 </dd>
                             </dl>
                             <h3 class="pngf">
-                                <a href="<?=$this->url[5] .'/'. $post['id']; ?>"><?=$post['name']; ?></a><br />
+                                <a href="<?=Url::getLink(5) .'/'. $post['id']; ?>"><?=$post['name']; ?></a><br />
                                 <span class="pngf"><?=$post['author']; ?></span>
                             </h3>
                             <div class="bl"><?=$post['leanch']; ?></div>
                             <p>
                                 <?=substr($post['description'], 0, 100); ?>
                             </p>
-                            <a class="more-link pngf" href="<?=$this->url[5] .'/'. $post['id']; ?>"></a>
+                            <a class="more-link pngf" href="<?=Url::getLink(5) .'/'. $post['id']; ?>"></a>
                             <hr />
                         </div>
                     </li>
-                    <?php } ?>
-
+   <?php } ?>
                 </ul>
             </div>
         </div>
@@ -55,14 +53,14 @@
             </dd>
         </dl>
         <h3 class="pngf">
-            <a href="<?=$this->url[5] .'/'. $post['id']; ?>"><?=$post['name']; ?></a><br />
+            <a href="<?=Url::getLink(5) .'/'. $post['id']; ?>"><?=$post['name']; ?></a><br />
             <span class="pngf"><?=$post['author']; ?></span>
         </h3>
         <div class="bl"><?=$post['leanch']; ?></div>
         <p>
             <?=substr($post['description'], 0, 100); ?>
         </p>
-        <a class="more-link pngf" href="<?=$this->url[5] .'/'. $post['id']; ?>"></a>
+        <a class="more-link pngf" href="<?=Url::getLink(5) .'/'. $post['id']; ?>"></a>
         <hr />
       </div>
      <?php } ?>

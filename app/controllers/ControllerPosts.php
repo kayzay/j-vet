@@ -9,6 +9,7 @@
 namespace controllers;
 
 
+use core\App;
 use core\Controller;
 use models\ModelComments;
 use models\ModelPost;
@@ -18,63 +19,57 @@ class ControllerPosts extends Controller
 
     public function actionAdd()
     {
-        $this->registry['view']->generate('default', 'add_post');
+        self::$view->generate('default', 'add_post');
     }
 
     public function actionPost()
     {
         if (empty($this->registry['url_action_data'][0])) {
-            header('Location: ' . $this->registry['url'][1]);
-            exit();
+            \Url::redirect(\Url::getLink(1));
         }
         $model_post = new ModelPost();
         $model_comment = new ModelComments();
         $data['post'] = $model_post->getPost($this->registry['url_action_data'][0]);
         $data['post']['data'] = explode('-', $data['post']['data']);
         $data['comments'] = $model_comment->getComments($this->registry['url_action_data'][0]);
-        $this->registry['view']->generate('default', 'post', $data);
+        \MetaData::setTitle($data['post']['name']);
+        self::$view->generate('default', 'post', $data);
     }
 
     public function actionSavePost()
     {
-        $result = $this->validate($this->registry['request']->post);
+        $result = $this->validate(App::getRequest()->post);
         if (is_bool($result) && $result) {
             $model_post = new ModelPost();
-            if ($model_post->postSave($this->registry['request']->post)) {
-                header('Location: ' . $this->registry['url'][1]);
-                exit();
+            if ($model_post->postSave(App::getRequest()->post)) {
+                \Url::redirect(\Url::getLink(1));
             }
         } elseif (is_string($result)) {
-            header('Location: ' . $this->registry['url'][1]);
-            exit();
+            \Url::redirect(\Url::getLink(1));
         } else {
-            header('Location: ' . $this->registry['url'][3]);
-            exit();
+            \Url::redirect(\Url::getLink(3));
         }
     }
     
     public function actionSaveComment()
     {
-        if(empty($this->registry['request']->post)) {
-            header('Location: ' . $this->registry['url'][1]);
-            return;
+        if (empty( App::getRequest()->post)) {
+            \Url::redirect(\Url::getLink(1));
         }
         $reg = '/^[\w,\.\(\)\?\-\s]{2,}$/';
-       $post = $this->registry['request']->post;
-        if(preg_match_all($reg, $post['author']) &&(isset($post['comment']) && !empty($post['comment']))) {
+        $post = App::getRequest()->post;
+        if (preg_match_all($reg, $post['author']) && (isset($post['comment']) && !empty($post['comment']))) {
             $post = array_values($post);
-            $date = new \DateTime();
             $model = new ModelComments();
-            if($model->commentSave($post)) {
-                $url = $this->registry['url'][5].'/'.$this->registry['request']->post['post'];
-                $this->registry['view']->ajaxRespond(0, '', array('url' => $url));
-            }else{
-               $this->registry['view']->ajaxRespond(1, 'not save', array());
+            if ($model->commentSave($post)) {
+                $url = \Url::getLink(5) . '/' . App::getRequest()->post['post'];
+                self::$view->ajaxRespond(0, '', array('url' => $url));
+            } else {
+                self::$view->ajaxRespond(1, 'not save', array());
             }
-        } else{
-            $this->registry['view']->ajaxRespond(1, 'not valid', array());
+        } else {
+            self::$view->ajaxRespond(1, 'not valid', array());
         }
-
     }
 
     private function validate($list)

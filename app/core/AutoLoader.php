@@ -26,7 +26,7 @@ class AutoLoader
             if (isset($this->_packages[$package])) {
                 $folder = $this->_packages[$package];
             }
-        } while ($part = array_pop($source));;
+        } while ($part = array_pop($source));
         $file_path = str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
         $path = $folder;
         if (strpos($folder, '.php') === false) {
