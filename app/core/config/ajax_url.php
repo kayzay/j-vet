@@ -6,4 +6,7 @@
  * Time: 22:28
  */
 
-return array();
+return array(
+    'save-comment' => array('controller' => 'ControllerPosts', 'action' => 'actionSaveComment'
+    )
+);

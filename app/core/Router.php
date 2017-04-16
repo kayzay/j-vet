@@ -49,13 +49,13 @@ class Router
         try {
             $action = array();
             $patch = trim($_SERVER['REQUEST_URI'],'/');
-            $parts = (empty($patch)) ? 'home' : explode('/', $patch);
-            if (is_array($parts) && preg_match('/^[a-z-]{3,}$/', $parts[0])) {
+            $parts = (empty($patch)) ? 'home' : explode('/', $patch);  
+            if (is_array($parts) && preg_match('/^[a-z-]{3,}$/', $parts[0]) && $parts[0] != 'ajax') {
                 $action['name'] = $parts[0];
                 unset($parts[0]);
                 $action['url_action_data'] = array_values($parts);
-            } elseif (is_array($parts) && preg_match('/ajax/', $parts[1])) {
-                $action['name'] = $parts[0];
+            } elseif (is_array($parts) && preg_match('/ajax/', $parts[0])) {
+                $action['name'] = $parts[1];
             } elseif (is_string($parts)) {
                 $action['name'] = $parts;
             }

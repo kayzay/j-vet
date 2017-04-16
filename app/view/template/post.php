@@ -87,7 +87,7 @@
     document.getElementById('submit').onclick = function () {
         var formData = new FormData(document.forms.add_comment);
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", '/save-comment', true);
+        xhr.open("POST", '/ajax/save-comment', true);
         xhr.send(formData);
         xhr.onload = function () {
             if (parseInt(xhr.status) == 200) {

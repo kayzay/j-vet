@@ -58,7 +58,7 @@ class App
     
     public function appStart($loader)
     {
-        $action = $this->router->handlerUrl();
+        $action = $this->router->handlerUrl(); 
         $controller = $this->router->getAliasAction($action['name']);
         self::$meta = self::$meta[$controller['action']];
         $this->set('url_action_data', (isset($action['url_action_data'])) ? $action['url_action_data'] : '');
